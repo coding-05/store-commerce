@@ -12,12 +12,12 @@ try {
     $db_error = "Connexion a la base impossible. Importez database.sql puis verifiez vos identifiants MySQL.";
 }
 
-/** Protege une valeur avant affichage HTML pour eviter les attaques XSS. */
+
 function e($valeur) {
     return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
 }
 
-/** Retourne le token CSRF de session ou en cree un nouveau. */
+
 function csrfToken() {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -25,44 +25,44 @@ function csrfToken() {
     return $_SESSION['csrf_token'];
 }
 
-/** Affiche un champ cache contenant le token CSRF pour les formulaires POST. */
+
 function csrfField() {
     return '<input type="hidden" name="csrf_token" value="' . e(csrfToken()) . '">';
 }
 
-/** Verifie que la requete POST contient le bon token CSRF. */
+
 function verifierCsrf() {
     return isset($_POST['csrf_token'], $_SESSION['csrf_token'])
         && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']);
 }
 
-/** Stocke un message temporaire de succes ou d'erreur pour l'affichage suivant. */
+
 function flash($type, $message) {
     $_SESSION['flash'] = ['type' => $type, 'message' => $message];
 }
 
-/** Redirige vers une page interne et termine le script proprement. */
+
 function rediriger($page = 'accueil') {
     header('Location: index.php?page=' . urlencode($page));
     exit;
 }
 
-/** Verifie si un utilisateur est connecte en session. */
+
 function estConnecte() {
     return !empty($_SESSION['user']);
 }
 
-/** Verifie si l'utilisateur connecte possede le role admin. */
+
 function estAdmin() {
     return estConnecte() && ($_SESSION['user']['role'] ?? '') === 'admin';
 }
 
-/** Retourne le nombre total d'articles dans le panier de session. */
+
 function compteurPanier() {
     return array_sum($_SESSION['panier'] ?? []);
 }
 
-/** Recupere les produits, avec filtre categorie et recherche optionnels. */
+
 function getProduits($categorie = null, $recherche = null) {
     global $pdo;
     if (!$pdo) return [];
@@ -93,7 +93,7 @@ function getProduits($categorie = null, $recherche = null) {
     return $requete->fetchAll();
 }
 
-/** Recupere les cinq produits les plus commandes, sinon les derniers ajoutes. */
+
 function getProduitsPopulaires() {
     global $pdo;
     if (!$pdo) return [];
@@ -110,7 +110,6 @@ function getProduitsPopulaires() {
     return $pdo->query($sql)->fetchAll();
 }
 
-/** Simule une IA simple qui classe un produit selon des mots-cles. */
 function classifierProduitIA($designation, $description) {
     $mots_femme = ['robe', 'jupe', 'tailleur', 'sac', 'escarpin', 'collier', 'bracelet', 'parfum femme'];
     $mots_homme = ['costume', 'cravate', 'chemise homme', 'chaussure homme', 'montre homme', 'parfum homme'];
@@ -125,7 +124,7 @@ function classifierProduitIA($designation, $description) {
     return 'Autre';
 }
 
-/** Enregistre une visite avec une geolocalisation locale simulee. */
+
 function enregistrerVisite() {
     global $pdo;
     if (!$pdo || !empty($_SESSION['visite_enregistree'])) return;
@@ -139,7 +138,7 @@ function enregistrerVisite() {
     $_SESSION['visite_enregistree'] = true;
 }
 
-/** Calcule les statistiques principales du tableau de bord admin. */
+
 function getStatistiques() {
     global $pdo;
     if (!$pdo) {
@@ -160,7 +159,7 @@ function getStatistiques() {
     ];
 }
 
-/** Ajoute un produit au panier de session avec une quantite minimale de 1. */
+
 function ajouterAuPanier($produit_id, $quantite) {
     $_SESSION['panier'] ??= [];
     $produit_id = (int) $produit_id;
@@ -168,12 +167,12 @@ function ajouterAuPanier($produit_id, $quantite) {
     $_SESSION['panier'][$produit_id] = ($_SESSION['panier'][$produit_id] ?? 0) + $quantite;
 }
 
-/** Vide totalement le panier de session. */
+
 function viderPanier() {
     $_SESSION['panier'] = [];
 }
 
-/** Charge les lignes detaillees du panier depuis la base. */
+
 function getPanierDetails() {
     global $pdo;
     $panier = $_SESSION['panier'] ?? [];
@@ -198,7 +197,7 @@ function getPanierDetails() {
     return ['lignes' => $lignes, 'total' => $total];
 }
 
-/** Valide le panier en commande, cree les lignes et baisse le stock. */
+
 function validerCommande($user_id) {
     global $pdo;
     $details = getPanierDetails();
@@ -235,7 +234,7 @@ function validerCommande($user_id) {
     }
 }
 
-/** Recupere l'historique des commandes d'un utilisateur client. */
+
 function getCommandesUtilisateur($user_id) {
     global $pdo;
     if (!$pdo) return [];
@@ -244,7 +243,7 @@ function getCommandesUtilisateur($user_id) {
     return $requete->fetchAll();
 }
 
-/** Affiche une carte produit reutilisable dans les pages boutique. */
+
 function afficherCarteProduit($produit) {
     ?>
     <article class="product-card"
