@@ -1,7 +1,7 @@
 # store-commerce
 # PHP E-STORE
 
-Application web e-commerce développée avec PHP, MySQL, CSS et JavaScript.
+Application web e-commerce développée avec PHP, MySQL,HTML, CSS et JavaScript.
 
 ## Fonctionnalités
 - Inscription et connexion des utilisateurs
@@ -20,4 +20,5 @@ Application web e-commerce développée avec PHP, MySQL, CSS et JavaScript.
 - MySQL
 - PDO
 - CSS3
+- HTML5
 - JavaScript
