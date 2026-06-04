@@ -65,8 +65,7 @@ CREATE TABLE visites (
     date_visite DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- Le marqueur admin ci-dessous est transforme en vrai password_hash('admin123')
--- par index.php lors de la premiere connexion admin reussie.
+
 INSERT INTO users (nom, email, mot_de_passe, role) VALUES
 ('Administrateur', 'admin@estore.com', 'SETUP_ADMIN123_REHASH_REQUIRED', 'admin');
 
