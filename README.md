@@ -1,4 +1,4 @@
-# store-commerce
+# store-Ecommerce
 # PHP E-STORE
 
 E-commerce web application developed using PHP, MySQL, HTML, CSS, and JavaScript.
